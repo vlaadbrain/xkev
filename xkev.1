@@ -1,0 +1,31 @@
+.TH XKEV 1 xkev\-VERSION
+.SH NAME
+xkev \- press keyboard buttons
+.SH SYNOPSIS
+.B xkev 
+.RB [ \-e <keysym> ]
+.RB [ \-v ]
+.SH DESCRIPTION
+.B xkev
+will generate a KeyPress XEvent followed by a KeyRelease XEvent for the
+keysym you tell it to.  
+.SH OPTIONS
+.TP
+.B \-e <keysym>
+specify the keysym you wish to KeyPress/KeyRelease.  keysyms can be in the
+format of an XK_* event or an XF86_* event as defined in X11/keysym.h or
+X11/XF86keysym.h
+.TP
+.B \-v
+show version information
+.SH AUTHORS
+See the LICENSE file for the authors.
+.SH LICENSE
+See the LICENSE file for the terms of redistribution.
+.SH SEE ALSO
+.BR XTest (3)
+.BR X11/keysym.h
+.BR X11/XF86keysym.h
+.SH BUGS
+Please report them.
+
