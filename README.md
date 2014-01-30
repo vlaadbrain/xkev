@@ -18,6 +18,10 @@ Usage
 	xkev -e XF86_Forward
 	xkev -e XF86_AudioMute
 
+send Control-c
+
+	xkev -c -e c 
+
 Repository
 ----------
 
