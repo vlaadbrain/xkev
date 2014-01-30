@@ -4,7 +4,7 @@ xkev \- press keyboard buttons
 .SH SYNOPSIS
 .B xkev 
 .RB [ \-e <keysym> ]
-.RB [ \-v ]
+.RB [ \-vcC ]
 .SH DESCRIPTION
 .B xkev
 will generate a KeyPress XEvent followed by a KeyRelease XEvent for the
@@ -15,6 +15,12 @@ keysym you tell it to.
 specify the keysym you wish to KeyPress/KeyRelease.  keysyms can be in the
 format of an XK_* event or an XF86_* event as defined in X11/keysym.h or
 X11/XF86keysym.h
+.TP
+.B \-c
+press keyboard button with XK_Control_L
+.TP
+.B \-C
+press keyboard button with XK_Control_R
 .TP
 .B \-v
 show version information
