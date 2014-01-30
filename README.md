@@ -22,6 +22,10 @@ send Control-c
 
 	xkev -c -e c 
 
+send Control-Alt-Del
+	
+	xkev -c -a -e Delete
+
 Repository
 ----------
 
