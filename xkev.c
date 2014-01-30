@@ -15,6 +15,9 @@
 #include "arg.h"
 
 char *argv0;
+static KeySym mod[6]; /* Shift,Control,Meta,Alt,Super,Hyper */
+
+#define LENGTH(x)               (sizeof x / sizeof x[0])
 
 void
 die(const char *errstr, ...) {
@@ -28,27 +31,65 @@ die(const char *errstr, ...) {
 
 void
 usage(void) {
-	die("usage: %s [-vcC] [-e <key>]\n", basename(argv0));
+	die("usage: %s [-vsScCmMaAuUhH] [-e <key>]\n", basename(argv0));
+}
+
+void
+mods(Display *dpy, Bool press) {
+	for (int i=0;i < LENGTH(mod); i++) {
+		if (mod[i] != NoSymbol)
+			XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, mod[i]), press, 0);
+	}
 }
 
 int
 main(int argc, char *argv[]) {
 	Display *dpy;
 	char *key = NULL;
-	KeySym control = NoSymbol;
-
 	KeySym keysym = NoSymbol;
 	KeyCode keycode = 0x0;
+	/* modifiers */
+	for (int i=0;i < LENGTH(mod); i++) mod[i] = NoSymbol;
 
 	ARGBEGIN {
 		case 'e':
 			key = EARGF(usage());
 			break;
+		case 's':
+			mod[0] = XK_Shift_L;
+			break;
+		case 'S':
+			mod[0] = XK_Shift_R;
+			break;
 		case 'c':
-			control = XK_Control_L;
+			mod[1] = XK_Control_L;
 			break;
 		case 'C':
-			control = XK_Control_R;
+			mod[1] = XK_Control_R;
+			break;
+		case 'm':
+			mod[2] = XK_Meta_L;
+			break;
+		case 'M':
+			mod[2] = XK_Meta_R;
+			break;
+		case 'a':
+			mod[3] = XK_Alt_L;
+			break;
+		case 'A':
+			mod[3] = XK_Alt_R;
+			break;
+		case 'u':
+			mod[4] = XK_Super_L;
+			break;
+		case 'U':
+			mod[4] = XK_Super_R;
+			break;
+		case 'h':
+			mod[5] = XK_Hyper_L;
+			break;
+		case 'H':
+			mod[5] = XK_Hyper_R;
 			break;
 		case 'v':
 			die("xkev-"VERSION", © 2014 xkev engineers"
@@ -68,16 +109,12 @@ main(int argc, char *argv[]) {
 	if ((keycode = XKeysymToKeycode(dpy, keysym)) == 0)
 		die("unable to find keycode for keysym: %s\n", key);
 
-	if (control != NoSymbol) {
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, control), True, 0);
-	}
+	mods(dpy, True);
 
 	XTestFakeKeyEvent(dpy, keycode, True, 0);
 	XTestFakeKeyEvent(dpy, keycode, False, 0);
 
-	if (control != NoSymbol) {
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, control), False, 0);
-	}
+	mods(dpy, False);
 
 	XCloseDisplay(dpy);
 
