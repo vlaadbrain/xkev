@@ -35,7 +35,7 @@ usage(void) {
 }
 
 void
-mods(Display *dpy, Bool press) {
+holdmodifiers(Display *dpy, Bool press) {
 	for (int i=0;i < LENGTH(mod); i++) {
 		if (mod[i] != NoSymbol)
 			XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, mod[i]), press, 0);
@@ -48,8 +48,8 @@ main(int argc, char *argv[]) {
 	char *key = NULL;
 	KeySym keysym = NoSymbol;
 	KeyCode keycode = 0x0;
-	/* modifiers */
-	for (int i=0;i < LENGTH(mod); i++) mod[i] = NoSymbol;
+	/* init modifiers */
+	for(int i=0;i < LENGTH(mod); i++) mod[i] = NoSymbol;
 
 	ARGBEGIN {
 		case 'e':
@@ -98,23 +98,23 @@ main(int argc, char *argv[]) {
 			usage();
 	} ARGEND;
 
-	if (key == NULL)
+	if(key == NULL)
 		usage();
 
-	if (!(dpy = XOpenDisplay(0)))
-		die("Cannot open display.\n");
+	if(!(dpy = XOpenDisplay(0)))
+		die("xkev: cannot open display.\n");
 
-	if ((keysym = XStringToKeysym(key)) == NoSymbol)
-		die("keysym doesn't exist: %s\n", key);
-	if ((keycode = XKeysymToKeycode(dpy, keysym)) == 0)
-		die("unable to find keycode for keysym: %s\n", key);
+	if((keysym = XStringToKeysym(key)) == NoSymbol)
+		die("xkev: keysym doesn't exist: %s\n", key);
+	if((keycode = XKeysymToKeycode(dpy, keysym)) == 0)
+		die("xkev: unable to find keycode for keysym: %s\n", key);
 
-	mods(dpy, True);
+	holdmodifiers(dpy, True);
 
 	XTestFakeKeyEvent(dpy, keycode, True, 0);
 	XTestFakeKeyEvent(dpy, keycode, False, 0);
 
-	mods(dpy, False);
+	holdmodifiers(dpy, False);
 
 	XCloseDisplay(dpy);
 
