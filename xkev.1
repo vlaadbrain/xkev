@@ -3,15 +3,22 @@
 xkev \- press keyboard buttons
 .SH SYNOPSIS
 .B xkev 
-.RB [ \-e <keysym> ]
-.RB [ \-vsScCmMaAuUhH ]
+.RB [ \-e
+.IR keysym ]
+.RB [ \-v ]
+.RB [ \-sS ]
+.RB [ \-cC ]
+.RB [ \-mM ]
+.RB [ \-aA ]
+.RB [ \-uU ]
+.RB [ \-hH ]
 .SH DESCRIPTION
 .B xkev
 will generate a KeyPress XEvent followed by a KeyRelease XEvent for the
 keysym you tell it to.  
 .SH OPTIONS
 .TP
-.B \-e <keysym>
+.B \-e " keysym"
 specify the keysym you wish to KeyPress/KeyRelease.  keysyms can be in the
 format of an XK_* event or an XF86_* event as defined in X11/keysym.h or
 X11/XF86keysym.h
@@ -54,6 +61,11 @@ press keyboard button with XK_Hyper_R
 .TP
 .B \-v
 show version information
+.SH EXAMPLES
+$ xkev -e XF86_Back
+$ xkev -e XF86_Forward
+$ xkev -e XF86_AudioMute
+$ xkev -c -a -e Delete
 .SH AUTHORS
 See the LICENSE file for the authors.
 .SH LICENSE
