@@ -9,8 +9,8 @@ extern char *argv0;
 
 /* use main(int argc, char *argv[]) */
 #define ARGBEGIN	for (argv0 = *argv, argv++, argc--;\
-					argv[0] && argv[0][1]\
-					&& argv[0][0] == '-';\
+					argv[0] && argv[0][0] == '-'\
+					&& argv[0][1];\
 					argc--, argv++) {\
 				char _argc;\
 				char **_argv;\
